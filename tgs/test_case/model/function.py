@@ -1,17 +1,20 @@
 from selenium import webdriver
 import os
-#截图函数
+
+
+# 截图函数
 def insert_img(driver, file_name):
     base_dir = os.path.dirname(os.path.dirname(__file__))
-    #print(base_dir)
+    # print(base_dir)
     base_dir = str(base_dir)
-    #print(base_dir)
-    base_dir = base_dir.replace('\\','/')    # 用‘/’替代 ‘\\’
-    #print(base_dir)
+    # print(base_dir)
+    base_dir = base_dir.replace('\\', '/')  # 用‘/’替代 ‘\\’
+    # print(base_dir)
     base = base_dir.split('/tgs')[0]
-    #print(base)
+    # print(base)
     file_path = base + '/tgs/report/image/' + file_name
     driver.get_screenshot_as_file(file_path)
+
 
 '''
 #用于验证该脚本是否有效

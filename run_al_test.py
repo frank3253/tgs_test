@@ -2,12 +2,15 @@ import unittest, time
 from HTMLTestRunner import HTMLTestRunner
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from tgs.test_case.model import config
 from email.header import Header
 import smtplib, os
 
 
 # 发送测试报告，需要配置你的邮箱账号
 def send_mail(file_new):
+    # 读取配置文件
+
     # 发送邮件服务器
     smtpserver = "imap.exmail.qq.com"
     # 发送邮件
@@ -15,8 +18,8 @@ def send_mail(file_new):
     # 接受邮件
     receiver = "yanhao@taogushen.com"
     # 发送邮箱账号/密码
-    user = "yanhao@taogushen.com"
-    password = "Yan@3253"
+    user = config.emailconfig( )[0]
+    password = config.emailconfig( )[1]
     # 加载测试报告
     f = open(file_new, 'rb')
     mail_body = f.read( )
@@ -36,7 +39,7 @@ def send_mail(file_new):
     msgRoot = MIMEMultipart('related')
     msgRoot['Subject'] = "自动化测试报告"
     msgRoot['From'] = 'yanhao@taogushen.com'
-    msgRoot['To'] = 'yanhao@taogushen.com, yanhao9660@dingtalk.com'
+    msgRoot['To'] = config.emailconfig( )[2]
     msgRoot.attach(msg1)
     msgRoot.attach(msg)
 
@@ -64,8 +67,8 @@ def new_report(testreport):
 # 指定测试用例为当前文件夹下的test_case目录
 # 指定测试报告的全路径
 test_dir = './tgs/test_case'
-discover = unittest.defaultTestLoader.discover(test_dir, pattern='case_*.py')
-test_report = "D:\\py3\\webtest\\tgs\\report"
+discover = unittest.defaultTestLoader.discover(test_dir, pattern='case_01*.py')
+test_report = "./tgs/report"
 
 if __name__ == "__main__":
     now = time.strftime("%Y-%m-%d %H_%M_%S")

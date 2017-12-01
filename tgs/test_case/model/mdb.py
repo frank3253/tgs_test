@@ -1,13 +1,16 @@
 import pymysql as msq
 import pymysql.cursors
+from tgs.test_case.model import config
 import json
 
 
 def getdata(sql):
+    dbname = config.dbconfig( )[0]
+    dbpassword = config.dbconfig( )[1]
     conn = msq.connect(host='taogushen.mysql.rds.aliyuncs.com',
                        port=3306,
-                       user='tgs',
-                       passwd='taotestgushen15',
+                       user=dbname,
+                       passwd=dbpassword ,
                        db='tgs_test2',
                        cursorclass=pymysql.cursors.DictCursor,
                        charset='utf8'
@@ -21,8 +24,8 @@ def getdata(sql):
             data = cursor.fetchall( )
             for i in data:
                 for j in i:
-                     # print (j,":",i[j])
-                     return i[j]
+                    # print (j,":",i[j])
+                    return i[j]
     except:
         print("Error: unable to fetch data")
     finally:
